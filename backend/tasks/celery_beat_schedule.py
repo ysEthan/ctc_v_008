@@ -1,14 +1,14 @@
 """
 Celery Beat 定时任务配置
 """
-from celery.schedules import crontab
+from celery.schedules import crontab, timedelta
 
 # 定时任务配置
 CELERY_BEAT_SCHEDULE = {
-    # 文档扫描任务 - 每天下午2点半执行
+    # 文档扫描任务 - 每天0点、8点、16点执行
     'scan-documents': {
         'task': 'tasks.document_scan.scan_and_process_documents',
-        'schedule': crontab(hour=17,minute=30),  # 每天下午2点半执行
+        'schedule': crontab(hour='0,8,16'),  # 每天0点、8点、16点执行
         'options': {
             'queue': 'celery',
             'routing_key': 'celery',
