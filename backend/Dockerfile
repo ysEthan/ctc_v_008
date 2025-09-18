@@ -43,12 +43,11 @@ RUN if [ ! -f .env ]; then \
         echo "ℹ️  .env 文件已存在，跳过复制"; \
     fi
 
+# 创建必要的目录（确保日志目录在迁移前存在）
+RUN mkdir -p /app/logs /app/media /app/static
+
 # 执行数据库迁移
 RUN python manage.py migrate
-
-
-# 创建必要的目录
-RUN mkdir -p /app/logs /app/media /app/static
 
 # 设置环境变量
 ENV PYTHONPATH=/app
