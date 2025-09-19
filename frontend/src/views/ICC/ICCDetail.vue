@@ -967,8 +967,8 @@ onMounted(() => {
 
 .stat-icon-new {
   position: absolute;
-  top: 16px;
-  left: 16px;
+  top: 8px;
+  left: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
