@@ -1,39 +1,20 @@
 <template>
   <div class="subscription-list">
-    <div class="page-header">
-      <h1>订阅管理</h1>
-      <div class="header-actions">
-        <el-button type="primary" @click="handleAdd">
-          <el-icon><Plus /></el-icon>
-          新增订阅
-        </el-button>
-        <el-button @click="handleExport">
-          <el-icon><Download /></el-icon>
-          导出数据
-        </el-button>
-      </div>
-    </div>
-
     <!-- 搜索和筛选 -->
     <el-card class="search-card">
       <el-form :model="searchForm" inline>
-        <el-form-item label="搜索">
+        <el-form-item>
           <el-input
             v-model="searchForm.search"
             placeholder="请输入订阅ID、产品ID或品牌"
             clearable
             @keyup.enter="handleSearch"
-          >
-            <template #append>
-              <el-button @click="handleSearch">
-                <el-icon><Search /></el-icon>
-              </el-button>
-            </template>
-          </el-input>
+            style="width: 280px"
+          />
         </el-form-item>
         
-        <el-form-item label="订阅状态">
-          <el-select v-model="searchForm.status" placeholder="请选择" clearable>
+        <el-form-item>
+          <el-select v-model="searchForm.status" placeholder="订阅状态" clearable style="width: 120px">
             <el-option label="订阅中" value="0" />
             <el-option label="未激活" value="1" />
             <el-option label="正常" value="2" />
@@ -43,19 +24,19 @@
           </el-select>
         </el-form-item>
         
-        <el-form-item label="产品标志">
-          <el-select v-model="searchForm.productFlag" placeholder="请选择" clearable>
+        <el-form-item>
+          <el-select v-model="searchForm.productFlag" placeholder="产品标志" clearable style="width: 120px">
             <el-option label="基础套餐" value="0" />
             <el-option label="附加包" value="1" />
           </el-select>
         </el-form-item>
         
-        <el-form-item label="品牌">
-          <el-input v-model="searchForm.brand" placeholder="请输入品牌" clearable />
+        <el-form-item>
+          <el-input v-model="searchForm.brand" placeholder="品牌" clearable style="width: 120px" />
         </el-form-item>
         
-        <el-form-item label="优先级">
-          <el-select v-model="searchForm.priority" placeholder="请选择" clearable>
+        <el-form-item>
+          <el-select v-model="searchForm.priority" placeholder="优先级" clearable style="width: 120px">
             <el-option label="最高" value="20" />
             <el-option label="高" value="30" />
             <el-option label="中" value="40" />
@@ -137,6 +118,7 @@
         v-loading="loading"
         :data="subscriptionList"
         stripe
+        border
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" />
@@ -149,12 +131,10 @@
           </template>
         </el-table-column>
         
-        <el-table-column prop="userId" label="用户ID" width="100" />
-        <el-table-column prop="acctId" label="账户ID" width="100" />
         <el-table-column prop="brand" label="品牌" width="100" />
         <el-table-column prop="productId" label="产品ID" width="120" />
         
-        <el-table-column prop="productFlag_display" label="产品标志" width="100">
+        <el-table-column prop="productFlag_display" label="产品标志" width="120">
           <template #default="{ row }">
             <el-tag :type="row.productFlag === '1' ? 'success' : 'primary'">
               {{ row.productFlag_display }}
@@ -162,7 +142,7 @@
           </template>
         </el-table-column>
         
-        <el-table-column prop="status_display" label="订阅状态" width="100">
+        <el-table-column prop="status_display" label="订阅状态" width="120">
           <template #default="{ row }">
             <el-tag :type="getStatusTagType(row.status)">
               {{ row.status_display }}
@@ -170,23 +150,23 @@
           </template>
         </el-table-column>
         
-        <el-table-column prop="priority_display" label="优先级" width="80" />
+        <el-table-column prop="priority_display" label="优先级" width="100" />
         
-        <el-table-column prop="effTime" label="生效时间" width="150">
+        <el-table-column prop="effTime" label="生效时间" width="160">
           <template #default="{ row }">
             {{ formatDateTime(row.effTime) }}
           </template>
         </el-table-column>
         
-        <el-table-column prop="expTime" label="过期时间" width="150">
+        <el-table-column prop="expTime" label="过期时间" width="160">
           <template #default="{ row }">
             {{ formatDateTime(row.expTime) }}
           </template>
         </el-table-column>
         
-        <el-table-column prop="created_at" label="创建时间" width="150">
+        <el-table-column prop="createTime" label="创建时间" width="160">
           <template #default="{ row }">
-            {{ formatDateTime(row.created_at) }}
+            {{ formatDateTime(row.createTime) }}
           </template>
         </el-table-column>
         
@@ -202,11 +182,11 @@
       <!-- 分页 -->
       <div class="pagination-container">
         <el-pagination
-          v-model:current-page="pagination.page"
-          v-model:page-size="pagination.pageSize"
+          :current-page="pagination.page"
+          :page-size="pagination.pageSize"
           :total="pagination.total"
-          :page-sizes="[10, 20, 50, 100]"
-          layout="total, sizes, prev, pager, next, jumper"
+          layout="total, prev, pager, next, jumper, sizes"
+          :page-sizes="[10, 20, 50, 100, 200]"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
         />
@@ -420,7 +400,7 @@ const getStatusTagType = (status?: string) => {
 
 // 格式化日期时间
 const formatDateTime = (dateTime?: string) => {
-  if (!dateTime) return '-'
+  if (!dateTime || dateTime === 'None' || dateTime === 'null') return '-'
   
   // 如果是14位数字格式 (yyyyMMddHHmmss)
   if (dateTime.length === 14 && /^\d{14}$/.test(dateTime)) {
@@ -453,25 +433,23 @@ onMounted(() => {
   padding: 20px;
 }
 
-.page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.page-header h1 {
-  margin: 0;
-  color: #2c3e50;
-}
-
-.header-actions {
-  display: flex;
-  gap: 10px;
-}
-
 .search-card {
   margin-bottom: 20px;
+}
+
+/* 紧凑筛选区域：减少外边距与内边距，保持控件尺寸不变 */
+:deep(.search-card .el-card__body) {
+  padding: 8px 12px; /* 默认20px，压缩为约一半 */
+  padding-left: 20px; /* 左侧略加一点，让输入框与表格对齐 */
+}
+
+:deep(.search-card .el-form) {
+  margin-bottom: 0; /* 去掉表单底部空隙 */
+}
+
+:deep(.search-card .el-form-item) {
+  margin-right: 8px; /* 默认大约16px，压缩 */
+  margin-bottom: 0; /* 去掉行间距，降低整体高度 */
 }
 
 .stats-row {
@@ -527,7 +505,84 @@ onMounted(() => {
 
 .pagination-container {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   margin-top: 20px;
+}
+
+/* Responsive Table 样式 - 参考Bootstrap风格 */
+:deep(.el-table) {
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  background-color: #fff;
+}
+
+:deep(.el-table .el-table__header) {
+  background-color: #f8f8f8;
+}
+
+:deep(.el-table .el-table__header th) {
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  font-weight: bold;
+  color: #333;
+  padding: 6px 12px;
+  height: 32px;
+  text-align: left;
+}
+
+:deep(.el-table .el-table__header .cell) {
+  padding: 6px 12px;
+  line-height: 1.3;
+  font-weight: bold;
+}
+
+:deep(.el-table .el-table__row) {
+  height: 29px;
+  border-bottom: 1px solid #ddd;
+}
+
+:deep(.el-table .el-table__row:hover) {
+  background-color: #f5f5f5;
+}
+
+:deep(.el-table .el-table__body tr td) {
+  border: 1px solid #ddd;
+  padding: 0;
+  vertical-align: middle;
+}
+
+:deep(.el-table .el-table__body tr td .cell) {
+  padding: 4px 12px;
+  line-height: 1.3;
+}
+
+/* 条纹样式 */
+:deep(.el-table .el-table__row--striped) {
+  background-color: #f9f9f9;
+}
+
+:deep(.el-table .el-table__row--striped:hover) {
+  background-color: #f5f5f5;
+}
+
+/* 表格边框 */
+:deep(.el-table--border) {
+  border: 1px solid #ddd;
+}
+
+:deep(.el-table--border .el-table__cell) {
+  border-right: 1px solid #ddd;
+}
+
+:deep(.el-table--border .el-table__header .el-table__cell) {
+  border-right: 1px solid #ddd;
+}
+
+/* 紧凑按钮样式 */
+:deep(.el-table .el-button--small) {
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 3px;
 }
 </style>

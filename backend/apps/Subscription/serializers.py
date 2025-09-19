@@ -70,7 +70,7 @@ class SubscriptionListSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'subscriptionId', 'userId', 'acctId', 'brand', 'productId',
             'productFlag', 'productFlag_display', 'status', 'status_display',
-            'effTime', 'expTime', 'priority', 'created_at'
+            'effTime', 'expTime', 'priority', 'createTime', 'created_at'
         ]
 
 

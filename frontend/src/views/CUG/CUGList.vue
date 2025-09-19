@@ -141,11 +141,11 @@
       <!-- 分页 -->
       <div class="pagination-container">
         <el-pagination
-          v-model:current-page="pagination.page"
-          v-model:page-size="pagination.pageSize"
+          :current-page="pagination.page"
+          :page-size="pagination.pageSize"
           :total="pagination.total"
-          :page-sizes="[10, 20, 50, 100]"
-          layout="total, sizes, prev, pager, next, jumper"
+          layout="total, prev, pager, next, jumper, sizes"
+          :page-sizes="[10, 20, 50, 100, 200]"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
         />
@@ -371,7 +371,7 @@ onMounted(() => {
 
 .pagination-container {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   margin-top: 20px;
 }
 

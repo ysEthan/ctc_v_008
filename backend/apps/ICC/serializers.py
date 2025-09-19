@@ -83,7 +83,7 @@ class ICCListSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'iccid', 'imsi', 'msisdn', 'brand', 'lifeCycle',
             'lifeCycle_display', 'paidFlag', 'paidFlag_display',
-            'activeTime', 'expTime', 'created_at'
+            'activeTime', 'expTime', 'createTime', 'created_at'
         ]
 
 

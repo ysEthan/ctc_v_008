@@ -9,20 +9,6 @@
           </el-icon>
         </button>
       </li>
-      <li class="hidden-xs hidden-sm">
-        <el-input
-          v-model="searchText"
-          placeholder="搜索项目..."
-          class="search-input"
-          @keyup.enter="handleSearch"
-        >
-          <template #append>
-            <el-button @click="handleSearch">
-              <el-icon><Search /></el-icon>
-            </el-button>
-          </template>
-        </el-input>
-      </li>
     </ul>
     
     <ul class="nav navbar-nav navbar-right">
@@ -75,7 +61,6 @@ import { useUserStore } from '@/stores/user'
 const router = useRouter()
 const userStore = useUserStore()
 
-const searchText = ref('')
 
 const props = defineProps<{
   sidebarCollapsed: boolean
@@ -94,10 +79,6 @@ const toggleProfile = () => {
   emit('toggleProfile')
 }
 
-const handleSearch = () => {
-  // TODO: 实现搜索功能
-  // console.log('搜索:', searchText.value)
-}
 
 const handleCommand = async (command: string) => {
   switch (command) {
@@ -217,9 +198,6 @@ const toggleFullscreen = () => {
   background-color: #f5f5f5;
 }
 
-.search-input {
-  width: 300px;
-}
 
 .meta {
   display: flex;
@@ -267,8 +245,5 @@ const toggleFullscreen = () => {
     left: 0;
   }
   
-  .search-input {
-    width: 200px;
-  }
 }
 </style>

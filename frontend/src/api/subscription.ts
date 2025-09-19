@@ -84,6 +84,7 @@ export const subscriptionApi = {
     productFlag?: string
     brand?: string
     priority?: string
+    icc?: number
     ordering?: string
   }): Promise<SubscriptionListResponse> => {
     const response = await api.get('/subscription/', { params })

@@ -23,8 +23,8 @@ class SubscriptionListView(generics.ListCreateAPIView):
     queryset = Subscription.objects.all()
     permission_classes = [IsActiveUser]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields = ['status', 'productFlag', 'brand', 'priority']
-    search_fields = ['subscriptionId', 'productId', 'brand']
+    filterset_fields = ['status', 'productFlag', 'brand', 'priority', 'icc']
+    search_fields = ['subscriptionId', 'productId', 'brand', 'icc__iccid']
     ordering_fields = ['created_at', 'effTime', 'expTime', 'subscriptionId']
     ordering = ['-created_at']
     
