@@ -257,26 +257,26 @@
               <el-row :gutter="20" style="margin-bottom: 20px;">
                 <el-col :span="6">
                   <el-card class="stat-card">
-                    <div class="stat-content">
-                      <div class="stat-icon">
-                        <el-icon size="16" color="#409EFF"><Calendar /></el-icon>
+                    <div class="stat-content-new">
+                      <div class="stat-icon-new">
+                        <el-icon size="20" color="#409EFF"><Calendar /></el-icon>
                       </div>
-                      <div class="stat-info">
-                        <div class="stat-label">活跃天数</div>
-                        <div class="stat-value">{{ activeDays }}</div>
+                      <div class="stat-info-new">
+                        <div class="stat-value-new">{{ activeDays }}</div>
+                        <div class="stat-label-new">活跃天数</div>
                       </div>
                     </div>
                   </el-card>
                 </el-col>
                 <el-col :span="6">
                   <el-card class="stat-card">
-                    <div class="stat-content">
-                      <div class="stat-icon">
-                        <el-icon size="16" color="#67C23A"><DataAnalysis /></el-icon>
+                    <div class="stat-content-new">
+                      <div class="stat-icon-new">
+                        <el-icon size="20" color="#67C23A"><DataAnalysis /></el-icon>
                       </div>
-                      <div class="stat-info">
-                        <div class="stat-label">用量汇总</div>
-                        <div class="stat-value">{{ totalUsage }} MB</div>
+                      <div class="stat-info-new">
+                        <div class="stat-value-new">{{ totalUsage }} MB</div>
+                        <div class="stat-label-new">用量汇总</div>
                       </div>
                     </div>
                   </el-card>
@@ -953,6 +953,54 @@ onMounted(() => {
   line-height: 1;
 }
 
+/* 新的统计卡片样式 - 参考图片布局 */
+.stat-content-new {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.stat-icon-new {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background-color: #f0f9ff;
+}
+
+.stat-info-new {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  width: 100%;
+}
+
+.stat-value-new {
+  font-size: 36px;
+  font-weight: 700;
+  color: #303133;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.stat-label-new {
+  font-size: 14px;
+  color: #606266;
+  font-weight: 500;
+}
+
 /* 图表卡片样式 */
 .chart-card {
   /* 使用统一的stat-card最小高度 */
@@ -1050,6 +1098,7 @@ onMounted(() => {
 .pie-chart-container {
   display: flex;
   align-items: center;
+  justify-content: center; /* 饼图和图例整体居中 */
   gap: 16px;
   height: 120px;
 }
